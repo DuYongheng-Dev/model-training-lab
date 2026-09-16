@@ -1,0 +1,3 @@
+# Direct non-framework dependencies; the complete resolved set is in requirements-lock.txt.
+matplotlib==3.11.2
+tqdm==4.70.1

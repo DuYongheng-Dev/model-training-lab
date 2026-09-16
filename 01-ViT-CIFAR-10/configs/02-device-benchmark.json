@@ -1,0 +1,11 @@
+{
+  "stage": "02-device-benchmark",
+  "seed": 42,
+  "cpu_threads": 4,
+  "batch_sizes": [1, 2, 8, 32, 128, 512],
+  "warmup_iterations": 10,
+  "rounds": 5,
+  "iterations_per_round": 10,
+  "precision": "float32_ieee",
+  "forward_config": "02-forward.json"
+}

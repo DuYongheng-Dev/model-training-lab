@@ -1,0 +1,422 @@
+{
+  "stage": "02-device-benchmark",
+  "run_id": "02-device-benchmark-8d295c88b727",
+  "config": {
+    "stage": "02-device-benchmark",
+    "seed": 42,
+    "cpu_threads": 4,
+    "batch_sizes": [
+      1,
+      2,
+      8,
+      32,
+      128,
+      512
+    ],
+    "warmup_iterations": 10,
+    "rounds": 5,
+    "iterations_per_round": 10,
+    "precision": "float32_ieee",
+    "forward_config": "02-forward.json"
+  },
+  "model_config": {
+    "image_size": 32,
+    "patch_size": 4,
+    "embed_dim": 128,
+    "depth": 4,
+    "num_heads": 4,
+    "mlp_ratio": 4,
+    "num_classes": 10,
+    "dropout": 0.0
+  },
+  "parameters": 809354,
+  "versions": {
+    "torch": "2.14.0+cu130",
+    "torchvision": "0.29.0+cu130",
+    "numpy": "2.5.2",
+    "nvidia-cudnn-cu13": "9.24.0.43"
+  },
+  "cuda_build": "13.0",
+  "cudnn_runtime": 92400,
+  "precision": "FP32 IEEE; TF32/AMP/compile disabled",
+  "mode": "eval + inference_mode",
+  "cpu_threads": 4,
+  "cpu_interop_threads": 1,
+  "split_sha256": "ca4d8a3d621b62cfa413948e4661582f2b3f8d210f2c4dfcc9574b207dd41afa",
+  "training_data_sha256": {
+    "batches.meta": "f962466ef690d46b226450fb9aadc74ba4bc64a76aa526b5827fe4bc5c7125cb",
+    "data_batch_1": "54636561a3ce25bd3e19253c6b0d8538147b0ae398331ac4a2d86c6d987368cd",
+    "data_batch_2": "766b2cef9fbc745cf056b3152224f7cf77163b330ea9a15f9392beb8b89bc5a8",
+    "data_batch_3": "0f00d98ebfb30b3ec0ad19f9756dc2630b89003e10525f5e148445e82aa6a1f9",
+    "data_batch_4": "3f7bb240661948b8f4d53e36ec720d8306f5668bd0071dcb4e6c947f78e9682b",
+    "data_batch_5": "d91802434d8376bbaeeadf58a737e3a1b12ac839077e931237e0dcd43adcb154"
+  },
+  "source_manifest_sha256": "a83ef6818d41c78c2e0e4de55f7c85e0130c787fa1fbeece7f101b7595aae9af",
+  "first_16_labels": [
+    9,
+    3,
+    7,
+    0,
+    3,
+    9,
+    0,
+    4,
+    9,
+    6,
+    8,
+    1,
+    0,
+    6,
+    7,
+    5
+  ],
+  "normalization": {
+    "mean": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "std": [
+      0.5,
+      0.5,
+      0.5
+    ]
+  },
+  "method": "Synchronize, perf_counter, repeated forwards, synchronize. Median of 5 round means; not individual request latency.",
+  "transfer": "Pageable CPU memory, blocking .to(cuda:0), no overlap or pinned memory.",
+  "excluded": [
+    "disk I/O",
+    "DataLoader",
+    "normalization",
+    "backward",
+    "optimizer",
+    "first-call initialization"
+  ],
+  "memory_note": "PyTorch peak allocated GPU memory includes model and resident GPU input; CPU mode left null.",
+  "training_steps": 0,
+  "test_evaluated": false,
+  "checks": {
+    "same_weights_and_inputs": true,
+    "state_unchanged": true,
+    "no_gradients": true,
+    "cpu_gpu_atol": 1e-05,
+    "cpu_gpu_rtol": 0.0001,
+    "batches": [
+      {
+        "batch_size": 1,
+        "cpu_gpu_max_abs_error": 3.8743019104003906e-07
+      },
+      {
+        "batch_size": 2,
+        "cpu_gpu_max_abs_error": 3.2782554626464844e-07
+      },
+      {
+        "batch_size": 8,
+        "cpu_gpu_max_abs_error": 3.725290298461914e-07
+      },
+      {
+        "batch_size": 32,
+        "cpu_gpu_max_abs_error": 4.4330954551696777e-07
+      },
+      {
+        "batch_size": 128,
+        "cpu_gpu_max_abs_error": 4.861503839492798e-07
+      },
+      {
+        "batch_size": 512,
+        "cpu_gpu_max_abs_error": 4.917383193969727e-07
+      }
+    ]
+  },
+  "rows": [
+    {
+      "batch_size": 1,
+      "mode": "cpu",
+      "median_ms": 2.613204624503851,
+      "p25_ms": 2.2293333895504475,
+      "p75_ms": 2.6607842184603214,
+      "images_per_second": 382.6719081326677,
+      "gpu_peak_allocated_mib": null,
+      "round_mean_ms": [
+        2.9559658840298653,
+        2.6607842184603214,
+        2.613204624503851,
+        2.2293333895504475,
+        2.223248314112425
+      ]
+    },
+    {
+      "batch_size": 1,
+      "mode": "gpu",
+      "median_ms": 1.3536493759602308,
+      "p25_ms": 1.3534230180084705,
+      "p75_ms": 1.3617584016174078,
+      "images_per_second": 738.7437380456334,
+      "gpu_peak_allocated_mib": 11.66845703125,
+      "round_mean_ms": [
+        1.3617584016174078,
+        1.352807879447937,
+        1.3756068889051676,
+        1.3536493759602308,
+        1.3534230180084705
+      ]
+    },
+    {
+      "batch_size": 1,
+      "mode": "gpu_with_transfer",
+      "median_ms": 1.3998063746839762,
+      "p25_ms": 1.3839502818882465,
+      "p75_ms": 1.402307115495205,
+      "images_per_second": 714.3845163769614,
+      "gpu_peak_allocated_mib": 11.68017578125,
+      "round_mean_ms": [
+        1.4053866732865572,
+        1.3776536099612713,
+        1.402307115495205,
+        1.3998063746839762,
+        1.3839502818882465
+      ]
+    },
+    {
+      "batch_size": 2,
+      "mode": "cpu",
+      "median_ms": 3.208263637498021,
+      "p25_ms": 3.203783417120576,
+      "p75_ms": 3.210028912872076,
+      "images_per_second": 623.3901655163567,
+      "gpu_peak_allocated_mib": null,
+      "round_mean_ms": [
+        3.210028912872076,
+        3.203783417120576,
+        3.1983063090592623,
+        3.208263637498021,
+        3.2165738753974438
+      ]
+    },
+    {
+      "batch_size": 2,
+      "mode": "gpu",
+      "median_ms": 1.3199953828006983,
+      "p25_ms": 1.3146777171641588,
+      "p75_ms": 1.3266307301819324,
+      "images_per_second": 1515.156814985597,
+      "gpu_peak_allocated_mib": 12.1240234375,
+      "round_mean_ms": [
+        1.3280293438583612,
+        1.3124245218932629,
+        1.3266307301819324,
+        1.3199953828006983,
+        1.3146777171641588
+      ]
+    },
+    {
+      "batch_size": 2,
+      "mode": "gpu_with_transfer",
+      "median_ms": 1.3491470832377672,
+      "p25_ms": 1.3469371013343334,
+      "p75_ms": 1.3559537008404732,
+      "images_per_second": 1482.4180586747261,
+      "gpu_peak_allocated_mib": 12.1474609375,
+      "round_mean_ms": [
+        1.3387348968535662,
+        1.3571979012340307,
+        1.3469371013343334,
+        1.3491470832377672,
+        1.3559537008404732
+      ]
+    },
+    {
+      "batch_size": 8,
+      "mode": "cpu",
+      "median_ms": 8.495168294757605,
+      "p25_ms": 8.412461914122105,
+      "p75_ms": 8.542563579976559,
+      "images_per_second": 941.7117733779124,
+      "gpu_peak_allocated_mib": null,
+      "round_mean_ms": [
+        8.37749638594687,
+        8.412461914122105,
+        8.542563579976559,
+        8.602227503433824,
+        8.495168294757605
+      ]
+    },
+    {
+      "batch_size": 8,
+      "mode": "gpu",
+      "median_ms": 1.3444134034216404,
+      "p25_ms": 1.341785630211234,
+      "p75_ms": 1.3537677004933357,
+      "images_per_second": 5950.550611619428,
+      "gpu_peak_allocated_mib": 14.857421875,
+      "round_mean_ms": [
+        1.3444134034216404,
+        1.341785630211234,
+        1.3537677004933357,
+        1.3590103015303612,
+        1.3397186994552612
+      ]
+    },
+    {
+      "batch_size": 8,
+      "mode": "gpu_with_transfer",
+      "median_ms": 1.390007371082902,
+      "p25_ms": 1.3893791940063238,
+      "p75_ms": 1.3925681822001934,
+      "images_per_second": 5755.365163112411,
+      "gpu_peak_allocated_mib": 14.951171875,
+      "round_mean_ms": [
+        1.3925681822001934,
+        1.390007371082902,
+        1.4027349185198545,
+        1.3893791940063238,
+        1.374626997858286
+      ]
+    },
+    {
+      "batch_size": 32,
+      "mode": "cpu",
+      "median_ms": 29.31741368956864,
+      "p25_ms": 29.292694898322225,
+      "p75_ms": 29.5648121740669,
+      "images_per_second": 1091.5014652668985,
+      "gpu_peak_allocated_mib": null,
+      "round_mean_ms": [
+        29.292694898322225,
+        29.5648121740669,
+        29.16644439101219,
+        29.31741368956864,
+        29.62118540890515
+      ]
+    },
+    {
+      "batch_size": 32,
+      "mode": "gpu",
+      "median_ms": 1.3786545023322105,
+      "p25_ms": 1.3531044125556946,
+      "p75_ms": 1.3849441427737474,
+      "images_per_second": 23211.036518480138,
+      "gpu_peak_allocated_mib": 26.494140625,
+      "round_mean_ms": [
+        1.3849441427737474,
+        1.3490198645740747,
+        1.3952089939266443,
+        1.3786545023322105,
+        1.3531044125556946
+      ]
+    },
+    {
+      "batch_size": 32,
+      "mode": "gpu_with_transfer",
+      "median_ms": 1.430771593004465,
+      "p25_ms": 1.426214212551713,
+      "p75_ms": 1.451921509578824,
+      "images_per_second": 22365.554471768253,
+      "gpu_peak_allocated_mib": 26.869140625,
+      "round_mean_ms": [
+        1.426214212551713,
+        1.4134567230939865,
+        1.4599813148379326,
+        1.430771593004465,
+        1.451921509578824
+      ]
+    },
+    {
+      "batch_size": 128,
+      "mode": "cpu",
+      "median_ms": 130.10707069188356,
+      "p25_ms": 129.61079678498209,
+      "p75_ms": 131.70845918357372,
+      "images_per_second": 983.8051023616274,
+      "gpu_peak_allocated_mib": null,
+      "round_mean_ms": [
+        133.15255832858384,
+        131.70845918357372,
+        129.61079678498209,
+        126.37401730753481,
+        130.10707069188356
+      ]
+    },
+    {
+      "batch_size": 128,
+      "mode": "gpu",
+      "median_ms": 1.4554960653185844,
+      "p25_ms": 1.4167708344757557,
+      "p75_ms": 1.4565601013600826,
+      "images_per_second": 87942.52561032027,
+      "gpu_peak_allocated_mib": 69.525390625,
+      "round_mean_ms": [
+        1.4554960653185844,
+        1.4153372030705214,
+        1.4565601013600826,
+        1.4580640010535717,
+        1.4167708344757557
+      ]
+    },
+    {
+      "batch_size": 128,
+      "mode": "gpu_with_transfer",
+      "median_ms": 1.6721782740205526,
+      "p25_ms": 1.6691526863723993,
+      "p75_ms": 1.6737812664359808,
+      "images_per_second": 76546.86225066142,
+      "gpu_peak_allocated_mib": 71.837890625,
+      "round_mean_ms": [
+        1.6691526863723993,
+        1.668686792254448,
+        2.635667100548744,
+        1.6737812664359808,
+        1.6721782740205526
+      ]
+    },
+    {
+      "batch_size": 512,
+      "mode": "cpu",
+      "median_ms": 617.145415302366,
+      "p25_ms": 612.8418857231736,
+      "p75_ms": 618.6916721053421,
+      "images_per_second": 829.6261906914584,
+      "gpu_peak_allocated_mib": null,
+      "round_mean_ms": [
+        612.8418857231736,
+        618.6916721053421,
+        625.4848875105381,
+        617.145415302366,
+        612.4073026236147
+      ]
+    },
+    {
+      "batch_size": 512,
+      "mode": "gpu",
+      "median_ms": 5.212614871561527,
+      "p25_ms": 5.1849020179361105,
+      "p75_ms": 5.21886246278882,
+      "images_per_second": 98223.25504869339,
+      "gpu_peak_allocated_mib": 246.462890625,
+      "round_mean_ms": [
+        5.212614871561527,
+        5.1849020179361105,
+        5.220189597457647,
+        5.21886246278882,
+        5.184554308652878
+      ]
+    },
+    {
+      "batch_size": 512,
+      "mode": "gpu_with_transfer",
+      "median_ms": 5.64234871417284,
+      "p25_ms": 5.615899991244078,
+      "p75_ms": 5.702051613479853,
+      "images_per_second": 90742.35321789366,
+      "gpu_peak_allocated_mib": 253.462890625,
+      "round_mean_ms": [
+        5.702051613479853,
+        5.520642502233386,
+        5.713136401027441,
+        5.64234871417284,
+        5.615899991244078
+      ]
+    }
+  ],
+  "measurement_duration_seconds": 49.959602559916675
+}

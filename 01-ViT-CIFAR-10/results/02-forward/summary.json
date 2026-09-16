@@ -1,0 +1,220 @@
+{
+  "stage": "02-forward",
+  "run_id": "02-forward-e4cef5b6ad62",
+  "seed": 42,
+  "device": "cpu",
+  "cuda_initialized": false,
+  "pretrained": false,
+  "training_steps": 0,
+  "test_evaluated": false,
+  "model_config": {
+    "image_size": 32,
+    "patch_size": 4,
+    "embed_dim": 128,
+    "depth": 4,
+    "num_heads": 4,
+    "mlp_ratio": 4,
+    "num_classes": 10,
+    "dropout": 0.0
+  },
+  "versions": {
+    "torch": "2.13.0+cu130",
+    "torchvision": "0.28.0+cu130",
+    "numpy": "2.5.2",
+    "matplotlib": "3.11.2"
+  },
+  "initialization": "truncated normal: mean=0, std=0.02, bounds=[-0.04,0.04]; biases=0; LayerNorm weight=1",
+  "parameter_counts": {
+    "total": 809354,
+    "patch_embed": 6272,
+    "cls_token": 128,
+    "position_embedding": 8320,
+    "blocks": [
+      198272,
+      198272,
+      198272,
+      198272
+    ],
+    "final_norm": 256,
+    "head": 1290
+  },
+  "shapes": {
+    "2": {
+      "input": [
+        2,
+        3,
+        32,
+        32
+      ],
+      "patch_embedding": [
+        2,
+        128,
+        8,
+        8
+      ],
+      "patch_tokens": [
+        2,
+        64,
+        128
+      ],
+      "with_cls": [
+        2,
+        65,
+        128
+      ],
+      "with_position": [
+        2,
+        65,
+        128
+      ],
+      "block_1": [
+        2,
+        65,
+        128
+      ],
+      "block_2": [
+        2,
+        65,
+        128
+      ],
+      "block_3": [
+        2,
+        65,
+        128
+      ],
+      "block_4": [
+        2,
+        65,
+        128
+      ],
+      "final_norm": [
+        2,
+        65,
+        128
+      ],
+      "cls_representation": [
+        2,
+        128
+      ],
+      "logits": [
+        2,
+        10
+      ]
+    },
+    "128": {
+      "input": [
+        128,
+        3,
+        32,
+        32
+      ],
+      "patch_embedding": [
+        128,
+        128,
+        8,
+        8
+      ],
+      "patch_tokens": [
+        128,
+        64,
+        128
+      ],
+      "with_cls": [
+        128,
+        65,
+        128
+      ],
+      "with_position": [
+        128,
+        65,
+        128
+      ],
+      "block_1": [
+        128,
+        65,
+        128
+      ],
+      "block_2": [
+        128,
+        65,
+        128
+      ],
+      "block_3": [
+        128,
+        65,
+        128
+      ],
+      "block_4": [
+        128,
+        65,
+        128
+      ],
+      "final_norm": [
+        128,
+        65,
+        128
+      ],
+      "cls_representation": [
+        128,
+        128
+      ],
+      "logits": [
+        128,
+        10
+      ]
+    }
+  },
+  "raw_range": [
+    0.0,
+    1.0
+  ],
+  "normalized_range": [
+    -1.0,
+    1.0
+  ],
+  "normalization": {
+    "mean": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "std": [
+      0.5,
+      0.5,
+      0.5
+    ]
+  },
+  "first_image_label": 9,
+  "first_image_class": "truck",
+  "first_image_logits": [
+    0.033670470118522644,
+    0.12808731198310852,
+    0.06191553175449371,
+    0.07098041474819183,
+    -0.29007771611213684,
+    -0.0550045371055603,
+    0.13416041433811188,
+    0.23917680978775024,
+    -0.1817447394132614,
+    -0.045840926468372345
+  ],
+  "batch_consistency_max_abs_error": 0.0,
+  "split_sha256": "ca4d8a3d621b62cfa413948e4661582f2b3f8d210f2c4dfcc9574b207dd41afa",
+  "training_data_sha256": {
+    "batches.meta": "f962466ef690d46b226450fb9aadc74ba4bc64a76aa526b5827fe4bc5c7125cb",
+    "data_batch_1": "54636561a3ce25bd3e19253c6b0d8538147b0ae398331ac4a2d86c6d987368cd",
+    "data_batch_2": "766b2cef9fbc745cf056b3152224f7cf77163b330ea9a15f9392beb8b89bc5a8",
+    "data_batch_3": "0f00d98ebfb30b3ec0ad19f9756dc2630b89003e10525f5e148445e82aa6a1f9",
+    "data_batch_4": "3f7bb240661948b8f4d53e36ec720d8306f5668bd0071dcb4e6c947f78e9682b",
+    "data_batch_5": "d91802434d8376bbaeeadf58a737e3a1b12ac839077e931237e0dcd43adcb154"
+  },
+  "source_manifest_sha256": "d89110510b86ef841e0d5d2a697e91a4e082daa7199d2da4c589fca5e1edae81",
+  "checks": {
+    "finite_float32_logits": true,
+    "same_images_across_batch_sizes": true,
+    "state_unchanged": true,
+    "all_parameter_grad_none": true,
+    "same_split_and_training_data_as_stage_01": true
+  },
+  "duration_seconds": 1.656
+}

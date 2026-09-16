@@ -1,0 +1,12 @@
+{
+  "stage": "01-data",
+  "seed": 42,
+  "batch_size": 128,
+  "num_workers": 0,
+  "cpu_threads": 4,
+  "validation_per_class": 500,
+  "shuffle": true,
+  "drop_last": false,
+  "transform": "ToTensor",
+  "preview_count": 16
+}

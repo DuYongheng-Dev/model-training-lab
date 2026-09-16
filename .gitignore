@@ -1,0 +1,53 @@
+# Machine-specific inventory, setup scripts, and credentials stay local.
+/硬件环境配置信息/
+.local/
+sudo_password.md
+.env
+.env.*
+!.env.example
+!.env.template
+*.pem
+*.key
+
+# Assets belong on the external experiment storage, not in this repository.
+/envs/
+/models/
+/datasets/
+/runs/
+/cache/
+/tmp/
+/logs/
+**/data/raw/
+**/data/processed/
+
+# Python environments, build products, and caches.
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.ipynb_checkpoints/
+*.egg-info/
+/build/
+/dist/
+
+# Full model artifacts and uncurated training logs.
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.gguf
+pytorch_model*.bin
+checkpoints/
+events.out.tfevents.*
+wandb/
+lightning_logs/
+*.log
+
+# Keep experiment README files, configs, lockfiles, notes, metric JSON/CSV,
+# and selected result images trackable. Do not ignore results/ or notes/.
+.DS_Store
