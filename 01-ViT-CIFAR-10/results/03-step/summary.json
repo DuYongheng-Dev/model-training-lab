@@ -1,0 +1,400 @@
+{
+  "stage": "03-step",
+  "run_id": "03-step-ea5732fd1e68",
+  "seed": 42,
+  "device": "cuda",
+  "optimizer_steps": 1,
+  "accumulation_optimizer_steps": 0,
+  "validation_evaluated": false,
+  "test_evaluated": false,
+  "batch_size": 128,
+  "batch_indices": [
+    43104,
+    21544,
+    13597,
+    29837,
+    19782,
+    49580,
+    17959,
+    32854,
+    37349,
+    44259,
+    34718,
+    34416,
+    20169,
+    35458,
+    20010,
+    39846,
+    34486,
+    40009,
+    5427,
+    38391,
+    11610,
+    15201,
+    16133,
+    24482,
+    31765,
+    15030,
+    28800,
+    10803,
+    19240,
+    35867,
+    26007,
+    46607,
+    43482,
+    1609,
+    37939,
+    19209,
+    4074,
+    12308,
+    45331,
+    29293,
+    49954,
+    24751,
+    23572,
+    39935,
+    2942,
+    17569,
+    21490,
+    46637,
+    7139,
+    19795,
+    20650,
+    30244,
+    7097,
+    33082,
+    32280,
+    3948,
+    11245,
+    155,
+    337,
+    6746,
+    16743,
+    41407,
+    7792,
+    28957,
+    11257,
+    22709,
+    17740,
+    15192,
+    10272,
+    12055,
+    16430,
+    43673,
+    32560,
+    28298,
+    34221,
+    1745,
+    15814,
+    12099,
+    9277,
+    20082,
+    26780,
+    14461,
+    18387,
+    15272,
+    28935,
+    35299,
+    28340,
+    45290,
+    26646,
+    21324,
+    18177,
+    25249,
+    36727,
+    476,
+    20416,
+    44133,
+    714,
+    11562,
+    42334,
+    42754,
+    10928,
+    35562,
+    5356,
+    30098,
+    16602,
+    7033,
+    20496,
+    15504,
+    38306,
+    47198,
+    9777,
+    16605,
+    36332,
+    18317,
+    2576,
+    9861,
+    6827,
+    47034,
+    40395,
+    28306,
+    13284,
+    32476,
+    31056,
+    6063,
+    40049,
+    3430,
+    29102,
+    12033
+  ],
+  "first_16_labels": [
+    9,
+    3,
+    7,
+    0,
+    3,
+    9,
+    0,
+    4,
+    9,
+    6,
+    8,
+    1,
+    0,
+    6,
+    7,
+    5
+  ],
+  "model_config": {
+    "image_size": 32,
+    "patch_size": 4,
+    "embed_dim": 128,
+    "depth": 4,
+    "num_heads": 4,
+    "mlp_ratio": 4,
+    "num_classes": 10,
+    "dropout": 0.0
+  },
+  "parameters": 809354,
+  "optimizer": {
+    "lr": 0.0003,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.0,
+    "foreach": false,
+    "fused": false
+  },
+  "normalization": {
+    "mean": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "std": [
+      0.5,
+      0.5,
+      0.5
+    ]
+  },
+  "precision": "float32_ieee",
+  "deterministic_algorithms": true,
+  "cublas_workspace_config": ":4096:8",
+  "versions": {
+    "torch": "2.14.0+cu130",
+    "torchvision": "0.29.0+cu130",
+    "numpy": "2.5.2",
+    "matplotlib": "3.11.2",
+    "nvidia-cudnn-cu13": "9.24.0.43"
+  },
+  "split_sha256": "ca4d8a3d621b62cfa413948e4661582f2b3f8d210f2c4dfcc9574b207dd41afa",
+  "training_data_sha256": {
+    "batches.meta": "f962466ef690d46b226450fb9aadc74ba4bc64a76aa526b5827fe4bc5c7125cb",
+    "data_batch_1": "54636561a3ce25bd3e19253c6b0d8538147b0ae398331ac4a2d86c6d987368cd",
+    "data_batch_2": "766b2cef9fbc745cf056b3152224f7cf77163b330ea9a15f9392beb8b89bc5a8",
+    "data_batch_3": "0f00d98ebfb30b3ec0ad19f9756dc2630b89003e10525f5e148445e82aa6a1f9",
+    "data_batch_4": "3f7bb240661948b8f4d53e36ec720d8306f5668bd0071dcb4e6c947f78e9682b",
+    "data_batch_5": "d91802434d8376bbaeeadf58a737e3a1b12ac839077e931237e0dcd43adcb154"
+  },
+  "source_manifest_sha256": "8daf40224279cc5446aa85f8826b5d2b036c2a2ae6664f4bafe436ce11f00f79",
+  "step": {
+    "loss_before": 2.2946128845214844,
+    "loss_after_one_step_same_batch": 2.1191749572753906,
+    "loss_shape": [],
+    "logits_shape": [
+      128,
+      10
+    ],
+    "labels_shape": [
+      128
+    ],
+    "shapes": {
+      "input": [
+        128,
+        3,
+        32,
+        32
+      ],
+      "patch_embedding": [
+        128,
+        128,
+        8,
+        8
+      ],
+      "patch_tokens": [
+        128,
+        64,
+        128
+      ],
+      "with_cls": [
+        128,
+        65,
+        128
+      ],
+      "with_position": [
+        128,
+        65,
+        128
+      ],
+      "block_1": [
+        128,
+        65,
+        128
+      ],
+      "block_2": [
+        128,
+        65,
+        128
+      ],
+      "block_3": [
+        128,
+        65,
+        128
+      ],
+      "block_4": [
+        128,
+        65,
+        128
+      ],
+      "final_norm": [
+        128,
+        65,
+        128
+      ],
+      "cls_representation": [
+        128,
+        128
+      ],
+      "logits": [
+        128,
+        10
+      ]
+    },
+    "head_grad_l2": 1.415955901145935,
+    "global_grad_l2": 3.6517107486724854,
+    "parameter_tensors": 56,
+    "tensors_with_gradient": 56,
+    "tensors_changed_by_step": 56,
+    "selected_parameter": {
+      "name": "head.weight",
+      "index": [
+        5,
+        98
+      ],
+      "before": 0.018083911389112473,
+      "after_backward": 0.018083911389112473,
+      "gradient": 0.25429797172546387,
+      "after_step": 0.017783911898732185
+    },
+    "first_image": {
+      "label": 9,
+      "logits": [
+        0.03367029130458832,
+        0.12808731198310852,
+        0.06191549822688103,
+        0.07098023593425751,
+        -0.2900778651237488,
+        -0.05500444024801254,
+        0.1341601461172104,
+        0.23917675018310547,
+        -0.18174481391906738,
+        -0.045841168612241745
+      ],
+      "true_class_probability": 0.09359320253133774,
+      "negative_log_probability": 2.368797540664673
+    },
+    "logit_gradient_formula_max_abs_error": 4.656612873077393e-10,
+    "checks": {
+      "grad_none_before_backward": true,
+      "parameters_unchanged_after_forward_and_backward": true,
+      "all_gradients_finite": true,
+      "parameters_changed_after_step": true,
+      "step_does_not_clear_gradients": true,
+      "zero_grad_preserves_updated_parameters": true,
+      "grad_none_after_final_zero": true,
+      "optimizer_state_steps_all_one": true,
+      "cross_entropy_and_logit_gradient_match_independent_formulas": true
+    }
+  },
+  "accumulation": [
+    {
+      "mode": "zero_each_time",
+      "backward_number": 1,
+      "loss": 2.2946128845214844,
+      "expected_multiplier": 1,
+      "head_grad_l2": 1.415955901145935,
+      "head_grad_norm_ratio": 1.0,
+      "all_parameters_gradient_max_abs_error": 0.0
+    },
+    {
+      "mode": "zero_each_time",
+      "backward_number": 2,
+      "loss": 2.2946128845214844,
+      "expected_multiplier": 1,
+      "head_grad_l2": 1.415955901145935,
+      "head_grad_norm_ratio": 1.0,
+      "all_parameters_gradient_max_abs_error": 0.0
+    },
+    {
+      "mode": "zero_each_time",
+      "backward_number": 3,
+      "loss": 2.2946128845214844,
+      "expected_multiplier": 1,
+      "head_grad_l2": 1.415955901145935,
+      "head_grad_norm_ratio": 1.0,
+      "all_parameters_gradient_max_abs_error": 0.0
+    },
+    {
+      "mode": "accumulate_without_zero",
+      "backward_number": 1,
+      "loss": 2.2946128845214844,
+      "expected_multiplier": 1,
+      "head_grad_l2": 1.415955901145935,
+      "head_grad_norm_ratio": 1.0,
+      "all_parameters_gradient_max_abs_error": 0.0
+    },
+    {
+      "mode": "accumulate_without_zero",
+      "backward_number": 2,
+      "loss": 2.2946128845214844,
+      "expected_multiplier": 2,
+      "head_grad_l2": 2.83191180229187,
+      "head_grad_norm_ratio": 2.0,
+      "all_parameters_gradient_max_abs_error": 0.0
+    },
+    {
+      "mode": "accumulate_without_zero",
+      "backward_number": 3,
+      "loss": 2.2946128845214844,
+      "expected_multiplier": 3,
+      "head_grad_l2": 4.247868061065674,
+      "head_grad_norm_ratio": 3.00000025256992,
+      "all_parameters_gradient_max_abs_error": 0.0
+    }
+  ],
+  "gradient_comparison_tolerance": {
+    "atol": 1e-06,
+    "rtol": 0.0001
+  },
+  "checks": {
+    "same_training_split_and_data": true,
+    "accumulation_all_parameters_match": true,
+    "accumulation_weights_unchanged": true,
+    "accumulation_final_grad_none": true
+  },
+  "duration_seconds": 1.6825899300165474,
+  "timing_note": "Whole observation duration, including diagnostics; not a training speed benchmark."
+}

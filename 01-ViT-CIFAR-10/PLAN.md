@@ -1,6 +1,6 @@
 # Tiny ViT / CIFAR-10 执行方案
 
-状态：用户已同意 R1–R3，方案生效。阶段 1 与阶段 2 均完成并通过检查，结果见 [README](README.md)；阶段 3–5 为后续学习任务。
+状态：用户已同意 R1–R3，方案生效。阶段 1–3 均已完成运行并通过检查，当前学习入口为 [03-step.md](notes/03-step.md)；阶段 4–5 为后续任务。
 
 ## 1. 学习路线与范围
 
@@ -31,7 +31,9 @@
 | `configs/02-forward.json`、`scripts/inspect_forward.sh`、`tests/test_model.py` | 阶段 2 的配置、运行入口和模型检查 |
 | `src/benchmark_devices.py`、`scripts/benchmark_devices.sh`、`configs/02-device-benchmark.json` | 已实现：固定 FP32 forward、不同 batch 的 CPU/GPU 计时 |
 | `scripts/select_gpu.py` | 从本机选择记录读取 GPU 身份，检查占用 |
-| `src/inspect_step.py` | 后续阶段 3：梯度、参数变化和清零对照 |
+| `src/inspect_step.py`、`configs/03-step.json`、`scripts/inspect_step.sh` | 已实现阶段 3：单次参数更新、梯度与清零对照 |
+| `src/run_record.py` | 阶段 3 起保存代码快照、依赖、Git 状态和本地运行元数据 |
+| `notes/03-step.md`、`results/03-step/` | 阶段 3 的教学解释、学习问题与实测结果 |
 | `src/train.py`、`src/evaluate.py` | 后续阶段 4–5：训练、验证、保存与恢复 |
 
 下列位置均在仓库外，路径基于已加载的 `LAB_ROOT`：
@@ -87,7 +89,7 @@ $LAB_ROOT/
 | --- | --- | --- |
 | 1 数据 | CPU，4 个计算线程，batch=128，worker=0；查看一个训练 batch | 45k/5k 索引互斥且覆盖 50k；每类 4500/500；图像 `[128,3,32,32]`、标签 `[128]`；类型/范围/图像标签对应正确；同种子首批可复现；展示 16 张图后停下 |
 | 2 forward | 首轮 CPU 已完成；后续使用指定 GPU，B=2/128；补充 B=1/2/8/32/128/512 的 CPU/GPU 计时；不反传 | 逐段 shape 匹配，输出有限值 `[B,10]`；记录实际参数量；解释 patch、位置编码与 CLS |
-| 3 单步 | 固定一个 batch，AdamW lr=3e-4；仅一次 step | 清零后 grad=None；backward 后梯度有限，权重未变；step 后权重发生变化；完成 R1 对照 |
+| 3 单步 | 已运行：固定 batch=128，AdamW lr=3e-4、weight_decay=0；仅一次 step | 清零后 grad=None；backward 后梯度有限，权重未变；step 后权重发生变化；完成 R1 对照 |
 | 4 32 图记忆 | 从 train 索引固定取 32 张；batch=32，lr=3e-4，weight_decay=0，dropout=0；最多 1000 step | 每 10 step 对固定 32 图评估；目标 accuracy=100% 且 loss≤0.05，连续 3 次满足可停止；不达标先诊断，不自动无限延长 |
 | 5 完整训练 | 单张用户指定 GPU；batch=128，lr=3e-4，weight_decay=1e-2，seed=42；先 1 epoch 检查，再最多 20 epoch | 保存四条曲线、best/last checkpoint；完成 5 epoch 中断后从第 6 epoch 恢复的对照；解释实测曲线，不设置最终准确率门槛 |
 
@@ -124,4 +126,4 @@ $LAB_ROOT/
 
 ## 8. 当前交付边界
 
-阶段 1 与阶段 2 已完成，分别留下真实数据观察和模型 forward 的结果与可复现入口。阶段 3–5 待逐阶段开展；计划值不写成训练结果。Git 提交和推送按用户另行授权执行。
+阶段 1–3 已完成，留下真实数据观察、模型 forward、CPU/GPU 对比和单次训练更新的结果与复现入口。阶段 3 的学习问题待用户理解与回答；阶段 4–5 尚未开始。按本次用户指令，当前进度已开始提交并推送到 GitHub；之后是否发布仍按相应任务授权执行。

@@ -1,0 +1,7 @@
+mode,backward_number,loss,expected_multiplier,head_grad_l2,head_grad_norm_ratio,all_parameters_gradient_max_abs_error
+zero_each_time,1,2.2946128845214844,1,1.415955901145935,1.0,0.0
+zero_each_time,2,2.2946128845214844,1,1.415955901145935,1.0,0.0
+zero_each_time,3,2.2946128845214844,1,1.415955901145935,1.0,0.0
+accumulate_without_zero,1,2.2946128845214844,1,1.415955901145935,1.0,0.0
+accumulate_without_zero,2,2.2946128845214844,2,2.83191180229187,2.0,0.0
+accumulate_without_zero,3,2.2946128845214844,3,4.247868061065674,3.00000025256992,0.0

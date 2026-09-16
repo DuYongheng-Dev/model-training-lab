@@ -28,7 +28,7 @@
 
 ### R1 的建议演示方式
 
-以下教学设计已采纳，将在阶段 3 实现和运行；当前不标记为已验证。
+以下教学设计已在阶段 3 实现并运行通过，证据见 [03-step.md](03-step.md) 与 [结果摘要](../results/03-step/summary.json)。
 
 1. 固定一个 batch，暂时不调用 `optimizer.step()`，关闭 dropout 等随机操作。
 2. A 组每次先 `zero_grad(set_to_none=True)`，再重新 forward、计算 loss、backward。

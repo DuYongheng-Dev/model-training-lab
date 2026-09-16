@@ -1,6 +1,6 @@
 # 01 · Tiny ViT / CIFAR-10
 
-状态：三项调整已落实，[执行方案](PLAN.md)已生效。**阶段 1 数据观察与阶段 2 Tiny ViT forward 均已完成**，当前学习入口是 [02-forward.md](notes/02-forward.md)，已补充 [CPU/GPU 计时](notes/02-device-benchmark.md)与[结构图核对](notes/02-diagram-review.md)。阶段 3–5 尚未实施，尚未更新模型参数。
+状态：**阶段 1–3 已完成运行与检查**。当前学习入口是 [03-step.md](notes/03-step.md)：观察 loss、backward、一次参数更新和梯度清零对照。已完成一次单批参数更新，阶段 4–5 尚未实施。此前的 [CPU/GPU 计时](notes/02-device-benchmark.md)与[结构图核对](notes/02-diagram-review.md)保留。
 
 ## 1. 问题 / Question
 
@@ -15,7 +15,7 @@
 - 训练与验证表现可能分离，应通过实际曲线判断，而不能只看训练准确率。
 - 恢复训练需要模型与优化器状态；更严格的连续性检查还涉及随机状态与数据顺序。
 
-以上训练相关假设仍待后续验证。数据读取和 forward 的实测证据见下方结果。
+第一项已在阶段 3 验证：backward 产生梯度且参数不变，step 更新参数。其余有关记忆、泛化和恢复训练的假设仍待后续验证。
 
 ## 3. 实现 / Implementation
 
@@ -35,7 +35,7 @@
 | 4 | 记住 32 张图 | 固定样本上的 loss 与 accuracy 曲线 |
 | 5 | 完整 train / validation / checkpoint | 训练与验证曲线、模型选择、停止后恢复的检查 |
 
-阶段 1 已实现 [data.py](src/data.py) 和 [inspect_data.py](src/inspect_data.py)。阶段 2 已实现 [model.py](src/model.py) 和 [inspect_forward.py](src/inspect_forward.py)，模型使用基础 PyTorch 模块显式组合，并提供 [7 项模型检查](tests/test_model.py)。阶段 3–5 尚未实现。
+阶段 1 已实现 [data.py](src/data.py) 和 [inspect_data.py](src/inspect_data.py)。阶段 2 已实现 [model.py](src/model.py) 和 [inspect_forward.py](src/inspect_forward.py)，模型使用基础 PyTorch 模块显式组合，并提供 [7 项模型检查](tests/test_model.py)。阶段 3 已实现 [inspect_step.py](src/inspect_step.py)，以显式五步训练主干完成一次更新，并单独对照梯度清零；阶段 4–5 尚未实现。
 
 ## 4. 实验设置 / Experiment Setup
 
@@ -53,6 +53,7 @@
 | 完整依赖 | [requirements-lock.txt](requirements-lock.txt)，安装后 `pip check` 通过 |
 | 阶段 1 配置 | [01-data.json](configs/01-data.json)：seed=42，batch=128，worker=0，CPU 线程=4，ToTensor，无增强 |
 | 阶段 2 配置 | [02-forward.json](configs/02-forward.json)：seed=42，B=2/128，CPU 线程=4；像素从 [0,1] 映射到 [-1,1] |
+| 阶段 3 配置 | [03-step.json](configs/03-step.json)：seed=42，batch=128，FP32，确定性算法；AdamW lr=3e-4、weight_decay=0；主模型仅一次 step |
 | 模型实际参数量 | 809,354；patch 投影、QKV/Linear、CLS 和位置编码采用截断正态初始化；bias=0，LayerNorm weight=1；详见配置、代码与结果摘要 |
 | 数据划分 | 按类别分层，每类 train=4,500、validation=500；固定索引保存在 SSD，运行时记录 SHA-256 |
 | 其余阶段配置 | 见 [PLAN.md](PLAN.md)，其中预算为计划值 |
@@ -113,6 +114,17 @@ bash scripts/benchmark_devices.sh
 
 基准固定模型、输入、FP32 精度与 CPU 4 线程，分别测 CPU、GPU、GPU 含传输。每次输出独立运行记录，条件与解释见 [计时笔记](notes/02-device-benchmark.md)。
 
+### 复现阶段 3
+
+```bash
+# 从仓库根目录开始
+source ./硬件环境配置信息/experiment-env.sh
+cd 01-ViT-CIFAR-10
+bash scripts/inspect_step.sh
+```
+
+入口沿用已指定 GPU。每次从固定种子的初始模型开始，只对一个训练 batch 更新一次；另用初始权重副本对照清零与累积，不在副本上更新参数。完整观测张量保存在 SSD，解释与学习问题见 [阶段 3 笔记](notes/03-step.md)。
+
 ## 5. 结果 / Results
 
 ### 阶段 1：数据观察
@@ -158,9 +170,20 @@ GPU forward：`02-forward-a82a1eb6235d`，见[结果](results/02-forward-gpu/REA
 
 B=1 的 CPU/GPU 纯 forward 分别约 2.613/1.354 ms；B=128 约 130.107/1.455 ms；B=512 约 617.145/5.213 ms。CPU 使用 4 线程，未测反向传播；详见[完整表格与曲线](results/02-device-benchmark/README.md)。
 
+### 阶段 3：单步训练
+
+运行：`03-step-ea5732fd1e68`。同一批 128 张训练图，loss 从 **2.294613** 降到一次 step 后的 **2.119175**。
+
+- backward 前梯度全为 None；backward 后 56 个参数张量的梯度均有限，而参数逐位不变。
+- step 后 56 个参数张量均有元素改变；所有 AdamW 参数状态的 step 都为 1。
+- 独立副本每次重新 forward/backward：每次清零得到 1、1、1 倍梯度，只在开始清零得到 1、2、3 倍梯度；全部参数逐元素检查通过。
+- CrossEntropyLoss 与负 log 概率均值一致，logits 梯度与独立公式一致到容差。
+
+查看[学习笔记](notes/03-step.md)、[结果摘要](results/03-step/README.md)和[梯度累积图](results/03-step/gradient-accumulation.png)。这是单批机制观察，没有完整 epoch、验证集或测试集指标。
+
 ## 6. 分析 / Analysis
 
-数据读取、划分和模型 forward 已验证。token shape 在 Transformer block 中保持不变，但其数值会变化；初始 logits 仅为随机初始化模型的分数。梯度、参数更新、泛化与恢复训练需要后续阶段的证据。
+数据读取、划分、forward 与一次训练 step 已验证。backward 计算梯度，step 更新参数；不清零会累积梯度。本次同一训练 batch 的 loss 下降，不能据此推断泛化能力。32 图记忆、完整训练和恢复训练仍需后续阶段验证。
 
 ## 7. 学到的内容 / What I Learned
 
@@ -168,4 +191,4 @@ B=1 的 CPU/GPU 纯 forward 分别约 2.613/1.354 ms；B=128 约 130.107/1.455 m
 
 ## 8. 下一步 / Next Experiment
 
-阶段 2 问题已回答，GPU 性能观察与图解核对已补充。下一阶段沿用已指定 GPU，对一个 batch 执行一次训练 step，观察 loss、梯度以及 optimizer.step 前后的参数变化。
+先阅读 [03-step.md](notes/03-step.md)，回答其中三个问题，理解 loss、梯度和参数更新的区别。下一阶段沿用已指定 GPU，让模型记住固定 32 张训练图；本次尚未启动该阶段。
