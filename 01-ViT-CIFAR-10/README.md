@@ -1,6 +1,6 @@
 # 01 · Tiny ViT / CIFAR-10
 
-状态：**阶段 1–3 已完成运行与检查**。当前学习入口是 [03-step.md](notes/03-step.md)：观察 loss、backward、一次参数更新和梯度清零对照。已完成一次单批参数更新，阶段 4–5 尚未实施。此前的 [CPU/GPU 计时](notes/02-device-benchmark.md)与[结构图核对](notes/02-diagram-review.md)保留。
+状态：**阶段 1–4 已完成运行与检查**。当前学习入口是 [04-overfit32.md](notes/04-overfit32.md)：固定 32 张训练图，150 步后达到 accuracy=100%、loss=0.037204，满足停止条件。阶段 5 的完整 train / validation / checkpoint 尚未实施。此前的 [CPU/GPU 计时](notes/02-device-benchmark.md)与[结构图核对](notes/02-diagram-review.md)保留。
 
 ## 1. 问题 / Question
 
@@ -15,7 +15,7 @@
 - 训练与验证表现可能分离，应通过实际曲线判断，而不能只看训练准确率。
 - 恢复训练需要模型与优化器状态；更严格的连续性检查还涉及随机状态与数据顺序。
 
-第一项已在阶段 3 验证：backward 产生梯度且参数不变，step 更新参数。其余有关记忆、泛化和恢复训练的假设仍待后续验证。
+前两项已验证：阶段 3 观察到 backward 产生梯度、step 更新参数；阶段 4 达到固定 32 图的记忆目标。泛化与恢复训练的假设仍待阶段 5 验证。
 
 ## 3. 实现 / Implementation
 
@@ -35,7 +35,7 @@
 | 4 | 记住 32 张图 | 固定样本上的 loss 与 accuracy 曲线 |
 | 5 | 完整 train / validation / checkpoint | 训练与验证曲线、模型选择、停止后恢复的检查 |
 
-阶段 1 已实现 [data.py](src/data.py) 和 [inspect_data.py](src/inspect_data.py)。阶段 2 已实现 [model.py](src/model.py) 和 [inspect_forward.py](src/inspect_forward.py)，模型使用基础 PyTorch 模块显式组合，并提供 [7 项模型检查](tests/test_model.py)。阶段 3 已实现 [inspect_step.py](src/inspect_step.py)，以显式五步训练主干完成一次更新，并单独对照梯度清零；阶段 4–5 尚未实现。
+阶段 1 已实现 [data.py](src/data.py) 和 [inspect_data.py](src/inspect_data.py)。阶段 2 已实现 [model.py](src/model.py) 和 [inspect_forward.py](src/inspect_forward.py)，模型使用基础 PyTorch 模块显式组合，并提供 [7 项模型检查](tests/test_model.py)。阶段 3 已实现 [inspect_step.py](src/inspect_step.py)，以显式五步训练主干完成一次更新，并单独对照梯度清零；阶段 4 已实现 [train.py](src/train.py) 的固定 batch 训练和 [evaluate.py](src/evaluate.py) 的只读评估；阶段 5 尚未实现。
 
 ## 4. 实验设置 / Experiment Setup
 
@@ -54,6 +54,7 @@
 | 阶段 1 配置 | [01-data.json](configs/01-data.json)：seed=42，batch=128，worker=0，CPU 线程=4，ToTensor，无增强 |
 | 阶段 2 配置 | [02-forward.json](configs/02-forward.json)：seed=42，B=2/128，CPU 线程=4；像素从 [0,1] 映射到 [-1,1] |
 | 阶段 3 配置 | [03-step.json](configs/03-step.json)：seed=42，batch=128，FP32，确定性算法；AdamW lr=3e-4、weight_decay=0；主模型仅一次 step |
+| 阶段 4 配置 | [04-overfit32.json](configs/04-overfit32.json)：固定 train 索引前 32 张，batch=32，最多 1000 步，每 10 步评估，连续三个评估点满足 accuracy=100%、loss≤0.05 时停止 |
 | 模型实际参数量 | 809,354；patch 投影、QKV/Linear、CLS 和位置编码采用截断正态初始化；bias=0，LayerNorm weight=1；详见配置、代码与结果摘要 |
 | 数据划分 | 按类别分层，每类 train=4,500、validation=500；固定索引保存在 SSD，运行时记录 SHA-256 |
 | 其余阶段配置 | 见 [PLAN.md](PLAN.md)，其中预算为计划值 |
@@ -125,6 +126,17 @@ bash scripts/inspect_step.sh
 
 入口沿用已指定 GPU。每次从固定种子的初始模型开始，只对一个训练 batch 更新一次；另用初始权重副本对照清零与累积，不在副本上更新参数。完整观测张量保存在 SSD，解释与学习问题见 [阶段 3 笔记](notes/03-step.md)。
 
+### 复现阶段 4
+
+```bash
+# 从仓库根目录开始
+source ./硬件环境配置信息/experiment-env.sh
+cd 01-ViT-CIFAR-10
+bash scripts/overfit32.sh
+```
+
+入口沿用已指定 GPU，从 seed=42 重新初始化模型，反复训练预先固定的 32 张图。每次创建独立运行目录，保存每步 loss、评估指标、图表和最终模型权重。该权重文件仅用于加载模型，阶段 5 才实现恢复训练所需的完整 checkpoint。
+
 ## 5. 结果 / Results
 
 ### 阶段 1：数据观察
@@ -181,14 +193,29 @@ B=1 的 CPU/GPU 纯 forward 分别约 2.613/1.354 ms；B=128 约 130.107/1.455 m
 
 查看[学习笔记](notes/03-step.md)、[结果摘要](results/03-step/README.md)和[梯度累积图](results/03-step/gradient-accumulation.png)。这是单批机制观察，没有完整 epoch、验证集或测试集指标。
 
+### 阶段 4：记住 32 张训练图
+
+运行：`04-overfit32-f206c27f589e`。初始 loss=2.318534、accuracy=9.375%；第一个记录到 accuracy=100% 的评估点是 step=40。step=130/140/150 连续满足 accuracy=100%、loss≤0.05，最终在 **150 步、loss=0.037204、32/32 正确**时停止。
+
+- 输入固定为原 train 索引列表前 32 张，无增强、dropout 或权重衰减；子集没有 ship 类，不是类别平衡的评测集。
+- 全部 loss、梯度及被检查的参数均有限，所有 AdamW 参数状态的 step 都为 150。
+- 评估保持参数不变、没有创建梯度，保存并重新加载权重后的 logits 最大绝对差为 0。
+- 本次只测训练所用的 32 张图，未评估 validation 或 test，不能据此推断泛化表现。
+
+查看[阶段 4 学习笔记](notes/04-overfit32.md)、[指标和记录](results/04-overfit32/README.md)。
+
+![固定 32 张训练图的曲线](results/04-overfit32/learning-curves.png)
+
 ## 6. 分析 / Analysis
 
-数据读取、划分、forward 与一次训练 step 已验证。backward 计算梯度，step 更新参数；不清零会累积梯度。本次同一训练 batch 的 loss 下降，不能据此推断泛化能力。32 图记忆、完整训练和恢复训练仍需后续阶段验证。
+训练主干和小样本拟合能力已验证。第 40 步以后 accuracy 保持 100%，loss 继续下降，说明分类是否正确与真实类别概率大小是不同观察。当前结果来自同一组训练图片；完整训练、泛化与恢复训练仍需阶段 5 的证据。
 
 ## 7. 学到的内容 / What I Learned
 
 用户已正确回答阶段 1 的三个问题：batch 形状、标签一一对应和 batch size 不改变单图形状。阶段 2 的回答整体正确；位置编码通过 batch 维广播共享，labels 保存真实类别编号。用户结构图与模型一致，需修正一处 MLP 算术笔误并在流程中补最终 LayerNorm，见[核对记录](notes/02-diagram-review.md)。
 
+阶段 3 中已讨论梯度清零、累加与多次更新的区别；用户答案保留在原笔记。阶段 4 接着观察为什么 accuracy 满分后 loss 仍会降低，以及训练图片上的满分为何不能证明泛化。
+
 ## 8. 下一步 / Next Experiment
 
-先阅读 [03-step.md](notes/03-step.md)，回答其中三个问题，理解 loss、梯度和参数更新的区别。下一阶段沿用已指定 GPU，让模型记住固定 32 张训练图；本次尚未启动该阶段。
+先阅读 [04-overfit32.md](notes/04-overfit32.md)，回答其中三个问题。下一阶段再建立完整 train / validation 循环、保存 checkpoint 并验证恢复训练；本次尚未启动阶段 5。

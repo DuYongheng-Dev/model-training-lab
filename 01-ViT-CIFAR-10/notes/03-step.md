@@ -125,8 +125,8 @@ bash scripts/inspect_step.sh
 
 ## 8. 留给你的三个问题
 
-1. `loss.backward()` 执行后，参数和 `.grad` 各发生了什么？哪一步真正改变参数？
-2. `logits` 是 `[128,10]`、`labels` 是 `[128]`，为什么最后的 loss 是一个标量？传给 CrossEntropyLoss 前需要自己做 softmax 吗？
-3. 固定输入和权重，连续三次重新 forward/backward，只在开始清零，梯度为何接近三倍？这和执行三次 optimizer.step 有什么区别？
+1. `loss.backward()` 执行后，参数和 `.grad` 各发生了什么？哪一步真正改变参数？   //模型参数没变，loss.backward()是根据loss算出gradient，要到optimizer.step()才改变模型参数
+2. `logits` 是 `[128,10]`、`labels` 是 `[128]`，为什么最后的 loss 是一个标量？传给 CrossEntropyLoss 前需要自己做 softmax 吗？//最后的loss是平均值，不需要做softmax
+3. 固定输入和权重，连续三次重新 forward/backward，只在开始清零，梯度为何接近三倍？这和执行三次 optimizer.step 有什么区别？//由于没有每次都清零，.grad每算一次都会累加；分别执行三次step，每次都是在前一次调整后的参数基础上做修改，而一次性用三倍的梯度做修改，还是在原始的参数上做一次修改，
 
 理解这一阶段后，再进入“让模型记住固定 32 张图”。

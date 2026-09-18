@@ -4,13 +4,13 @@ A collection of reproducible experiments for understanding model training, data,
 
 通过提出问题、实现方法、记录结果和分析失败，理解模型训练、数据、优化与评测。仓库保存实验的可复现过程；形成完整研究或工程项目后，再按需要拆分为独立仓库。
 
-当前阶段：首个实验已完成数据观察、Tiny ViT forward、CPU/GPU 对比及单批训练一步。正在学习 loss、梯度和参数更新；尚未开展完整 epoch 或验证集评估。
+当前阶段：首个实验已完成固定 32 张训练图片的记忆实验：150 步后 accuracy=100%、loss=0.037204。正在学习训练拟合与泛化的区别；尚未开展完整训练集上的 epoch 或验证集评估。
 
 ## 实验索引
 
 | 实验 | 当前进度 |
 | --- | --- |
-| [01 · Tiny ViT / CIFAR-10](01-ViT-CIFAR-10/README.md) | 阶段 3 完成：一次参数更新、loss/梯度观察与清零对照 |
+| [01 · Tiny ViT / CIFAR-10](01-ViT-CIFAR-10/README.md) | 阶段 4 完成：32 图记忆、loss/accuracy 曲线与逐图预测 |
 
 ## 仓库组织
 
