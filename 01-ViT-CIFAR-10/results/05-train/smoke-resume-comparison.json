@@ -1,0 +1,61 @@
+{
+  "reference_run": "05-train-2011b73b08df",
+  "resumed_run": "05-train-64e72c6126fc",
+  "completed_epoch": 6,
+  "global_step": 18,
+  "reference_checkpoint_sha256": "d514dc5c72d6c5eed20ed69745c68247b6c4e1fcbd1150a6900b9dacd5e2499c",
+  "resumed_checkpoint_sha256": "0e92c210702f85a5302a3a2d8b37bf1874389da3b29a0d2969cb4cd8bc92600b",
+  "comparisons": {
+    "identity": {
+      "exactly_equal": true,
+      "max_abs_tensor_error": 0.0,
+      "tensor_count": 0,
+      "mismatch_count": 0,
+      "first_mismatches": []
+    },
+    "model": {
+      "exactly_equal": true,
+      "max_abs_tensor_error": 0.0,
+      "tensor_count": 56,
+      "mismatch_count": 0,
+      "first_mismatches": []
+    },
+    "optimizer": {
+      "exactly_equal": true,
+      "max_abs_tensor_error": 0.0,
+      "tensor_count": 168,
+      "mismatch_count": 0,
+      "first_mismatches": []
+    },
+    "rng": {
+      "exactly_equal": true,
+      "max_abs_tensor_error": 0.0,
+      "tensor_count": 4,
+      "mismatch_count": 0,
+      "first_mismatches": []
+    },
+    "metrics_and_sample_order": {
+      "exactly_equal": true,
+      "max_abs_tensor_error": 0.0,
+      "tensor_count": 0,
+      "mismatch_count": 0,
+      "first_mismatches": []
+    },
+    "progress_and_selection": {
+      "exactly_equal": true,
+      "max_abs_tensor_error": 0.0,
+      "tensor_count": 0,
+      "mismatch_count": 0,
+      "first_mismatches": []
+    },
+    "best_model": {
+      "exactly_equal": true,
+      "max_abs_tensor_error": 0.0,
+      "tensor_count": 56,
+      "mismatch_count": 0,
+      "first_mismatches": []
+    }
+  },
+  "all_exactly_equal": true,
+  "scope": "Same GPU, software, code, config and data; elapsed time/memory excluded."
+}

@@ -1,0 +1,14 @@
+{
+  "main_trajectory_epochs": 20,
+  "main_trajectory_optimizer_steps": 7040,
+  "executed_full_data_epochs_including_checks": 22,
+  "executed_small_subset_epochs": 7,
+  "main_trajectory_train_seconds": 292.29177985712886,
+  "main_trajectory_validation_seconds": 14.583345165010542,
+  "main_trajectory_data_wait_seconds": 128.61121463682503,
+  "median_train_epoch_seconds": 14.582692789612338,
+  "median_train_samples_per_second": 3085.8503727963416,
+  "max_gpu_peak_allocated_mib": 381.35205078125,
+  "all_full_data_train_seconds_including_checks": 321.3450768808834,
+  "note": "Times include metric/finite checks; train also includes loading/transfer. Excludes checkpoint IO and framework startup."
+}

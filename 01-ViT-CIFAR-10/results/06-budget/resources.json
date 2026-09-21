@@ -1,0 +1,17 @@
+{
+  "additional_full_training_epochs": 30,
+  "additional_optimizer_steps": 10560,
+  "trajectory_epochs": 50,
+  "trajectory_optimizer_steps": 17600,
+  "training_seconds": 446.0852210596204,
+  "train_eval_seconds": 196.4532901281491,
+  "validation_seconds": 21.855503419414163,
+  "epoch20_train_eval_seconds": 6.463242177851498,
+  "wall_seconds_two_runs": 688.6457085683942,
+  "train_seconds_median": 14.854272763244808,
+  "train_samples_per_second_median": 3029.4314136908215,
+  "gpu_peak_allocated_mib": 381.35205078125,
+  "data_wait_fraction": 0.43664397128950233,
+  "timing_note": "Training includes data/transfer/checks; wall includes setup, extra validation and checkpoint IO.",
+  "scope": "One seed; no repeated full training epochs in stage 6. Not a cross-device speed benchmark."
+}

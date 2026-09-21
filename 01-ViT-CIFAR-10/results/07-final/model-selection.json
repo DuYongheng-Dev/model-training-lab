@@ -1,0 +1,14 @@
+{
+  "rule": "minimum_validation_loss",
+  "candidate_epochs": [
+    1,
+    50
+  ],
+  "source_training_run": "06-budget-4b59a2a02b22",
+  "checkpoint_source_run": "05-train-f267ced4de42",
+  "selected_epoch": 19,
+  "checkpoint_sha256": "5bd026d59e04c5f7e31be66949b00b0db1985f4fd92ab92c6bf3f2c9696c5198",
+  "validation_loss": 1.0134517986297606,
+  "validation_accuracy": 0.6558,
+  "frozen_before_test_predictions": true
+}

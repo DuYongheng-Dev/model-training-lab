@@ -1,0 +1,9 @@
+{
+  "entry": "tests/test_final_metrics.py",
+  "source_sha256": "92ccccdf47526d810f8ab78355c82f9e00e175f7affb85e052d7e49017aa9931",
+  "tests_run": 2,
+  "failures": 0,
+  "errors": 0,
+  "passed": true,
+  "official_test_used": false
+}

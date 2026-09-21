@@ -4,13 +4,13 @@ A collection of reproducible experiments for understanding model training, data,
 
 通过提出问题、实现方法、记录结果和分析失败，理解模型训练、数据、优化与评测。仓库保存实验的可复现过程；形成完整研究或工程项目后，再按需要拆分为独立仓库。
 
-当前阶段：首个实验已完成固定 32 张训练图片的记忆实验：150 步后 accuracy=100%、loss=0.037204。正在学习训练拟合与泛化的区别；尚未开展完整训练集上的 epoch 或验证集评估。
+当前阶段：首个 Tiny ViT / CIFAR-10 实验的七阶段运行已全部完成。主轨迹训练 50 轮，按最低验证 loss 选择第 19 轮 best；该模型 validation accuracy=65.58%，最终官方 test accuracy=**64.62%（6,462 / 10,000）**。已完成混淆矩阵、预测示例与[实验总结](01-ViT-CIFAR-10/notes/experiment-summary.md)；最后的学习入口为[阶段 7 笔记](01-ViT-CIFAR-10/notes/07-final.md)。
 
 ## 实验索引
 
 | 实验 | 当前进度 |
 | --- | --- |
-| [01 · Tiny ViT / CIFAR-10](01-ViT-CIFAR-10/README.md) | 阶段 4 完成：32 图记忆、loss/accuracy 曲线与逐图预测 |
+| [01 · Tiny ViT / CIFAR-10](01-ViT-CIFAR-10/README.md) | 七阶段执行完成：第 19 轮 best，官方 test 64.62%；最后学习回答已核对 |
 
 ## 仓库组织
 

@@ -1,6 +1,6 @@
 # Tiny ViT / CIFAR-10 执行方案
 
-状态：用户已同意 R1–R3，方案生效。阶段 1–4 均已完成运行并通过检查，当前学习入口为 [04-overfit32.md](notes/04-overfit32.md)；阶段 5 为后续任务。
+状态：用户已同意 R1–R3，并授权执行最后阶段；**阶段 1–7 已全部完成运行与检查**。主轨迹训练 50 轮，按最低 val_loss 选择第 19 轮 best；最终官方 test accuracy=64.62%、loss=1.023884。当前学习入口为 [07-final.md](notes/07-final.md) 和[实验总结](notes/experiment-summary.md)。
 
 ## 1. 学习路线与范围
 
@@ -34,9 +34,11 @@
 | `src/inspect_step.py`、`configs/03-step.json`、`scripts/inspect_step.sh` | 已实现阶段 3：单次参数更新、梯度与清零对照 |
 | `src/run_record.py` | 阶段 3 起保存代码快照、依赖、Git 状态和本地运行元数据 |
 | `notes/03-step.md`、`results/03-step/` | 阶段 3 的教学解释、学习问题与实测结果 |
-| `src/train.py`、`src/evaluate.py` | 已实现阶段 4：固定 32 图训练与只读指标评估；阶段 5 的完整训练和恢复尚未实现 |
+| `src/train.py`、`src/evaluate.py` | 阶段 4 固定 32 图训练；共享只读指标评估，完整循环见 `train_full.py` |
 | `configs/04-overfit32.json`、`scripts/overfit32.sh` | 阶段 4 的固定配置与启动入口 |
 | `notes/04-overfit32.md`、`results/04-overfit32/` | 阶段 4 曲线、逐图预测、解释与学习问题 |
+| `src/train_full.py`、`src/checkpoint.py`、`src/compare_resume.py` | 阶段 5 的完整循环、epoch 边界状态保存及恢复对照 |
+| `configs/05-*.json`、`scripts/train_full.sh`、`tests/test_training.py` | 阶段 5 的正式/小规模配置、运行入口和关键检查 |
 
 下列位置均在仓库外，路径基于已加载的 `LAB_ROOT`：
 
@@ -93,9 +95,11 @@ $LAB_ROOT/
 | 2 forward | 首轮 CPU 已完成；后续使用指定 GPU，B=2/128；补充 B=1/2/8/32/128/512 的 CPU/GPU 计时；不反传 | 逐段 shape 匹配，输出有限值 `[B,10]`；记录实际参数量；解释 patch、位置编码与 CLS |
 | 3 单步 | 已运行：固定 batch=128，AdamW lr=3e-4、weight_decay=0；仅一次 step | 清零后 grad=None；backward 后梯度有限，权重未变；step 后权重发生变化；完成 R1 对照 |
 | 4 32 图记忆 | 从 train 索引固定取 32 张；batch=32，lr=3e-4，weight_decay=0，dropout=0；最多 1000 step | 每 10 step 对固定 32 图评估；目标 accuracy=100% 且 loss≤0.05，连续 3 次满足可停止；不达标先诊断，不自动无限延长 |
-| 5 完整训练 | 单张用户指定 GPU；batch=128，lr=3e-4，weight_decay=1e-2，seed=42；先 1 epoch 检查，再最多 20 epoch | 保存四条曲线、best/last checkpoint；完成 5 epoch 中断后从第 6 epoch 恢复的对照；解释实测曲线，不设置最终准确率门槛 |
+| 5 完整训练 | 单张用户指定 GPU；batch=128，lr=3e-4，weight_decay=1e-2，seed=42；先 1 epoch 检查，主轨迹 20 epoch | 已保存四条曲线、best/last checkpoint；第五轮检查点恢复后，第六轮状态与连续训练完全一致；best=epoch 19，val accuracy=65.58% |
 
 阶段 4 固定使用保存的 train 索引列表前 32 项，未读取 validation 图片，未重新挑选子集。实测在 step=130/140/150 连续满足目标并停止，最终 loss=0.037204、accuracy=100%；完整记录见阶段 4 笔记。阶段 5 若未观察到明显过拟合，如实记录；后续可单独设计缩小训练集的诊断，不擅自替换完整训练结果。
+
+阶段 5 主轨迹 20 轮：连续参考的 epoch 1–5、验证通过的恢复分支 epoch 6，以及从该分支继续的 epoch 7–20。计入独立首轮试跑和用于对照的重复第 6 轮，实际执行 22 个完整数据 epoch；另外在 257/129 小子集上执行连续 6 轮和恢复第 6 轮，共 7 轮。预算与不同运行职责见结果目录的 `run-index.json` 和 `resources.json`。
 
 用户已指定本实验 GPU，身份保存于本机 `.local/device.json`，后续阶段持续沿用，不重复询问。模型运行入口调用 `scripts/select_gpu.py` 检查身份与占用；阶段 1 数据读取及正确性单元检查保留 CPU，阶段 2–5 模型计算默认 GPU。CPU/GPU 基准仅作为阶段 2 补充，未提前执行反向传播。
 
@@ -128,4 +132,15 @@ $LAB_ROOT/
 
 ## 8. 当前交付边界
 
-阶段 1–4 已完成运行与检查，阶段 4 停在 32 图记忆结果和学习问题；阶段 5 尚未开始。阶段 1–4 的代码、笔记和精选结果纳入仓库版本管理；完整运行产物保存在仓库外。
+阶段 1–7 已完成运行与检查；阶段 6 的问题已作答并核对，最后阶段的三个问题已作答并核对：第一题的行列方向错误已指出，第二、三题补充解释已记录。官方测试集首次评估已完成，没有开展多种子或超参数搜索，也未以 test 分数调整训练。本仓库保存阶段 1–7 的代码、笔记和精选结果，完整运行产物保存在仓库外。
+
+## 9. 追加阶段 6–7
+
+- 阶段 6：恢复第 20 轮 last，保持原训练方法继续至总计 50 轮。新增 epoch-end train_eval，配合原 online train、validation 指标观察预算与泛化；不早停、不调学习率或增强。先验证迁移与资源，再试跑第 21 轮并由它续至 50，不重复该轮。
+- 用户此前变更了设备指定，跨设备迁移须保留来源身份并校验配置、模型、数据、依赖和原训练代码，加载后验证完整状态及历史模型指标。监测不得改变训练状态或随机序列；第 1–19 轮缺失的 train_eval 不伪造。
+- 阶段 6 交付六条曲线、逐轮数据、恢复证据、best/last 对比和学习问题；判读连续多轮趋势。完整细节见 [阶段 6 设计](notes/06-budget-plan.md)。
+- 阶段 7：用户已授权且已完成；使用 epoch 1–50 中最低 val_loss 的 best 首次评估官方 test，生成混淆矩阵、各 10 张正确/错误示例并总结。Tiny CLIP 与可选 scheduler 对照均未启动。
+
+阶段 6 实测：第 21 轮试跑与第 22–50 轮续训合计新增 30 个完整数据 epoch，没有重复训练其中某轮。最终第 50 轮 train_eval accuracy=95.93%、val accuracy=64.42%、val_loss=1.751647；best 仍为第 19 轮。三项专项检查、跨设备加载与历史模型指标复核、阶段内恢复、最终检查点核验均通过。运行与资源索引见 [阶段 6 结果](results/06-budget/README.md)。
+
+阶段 7 实测：运行 `07-final-643922676edf`，冻结第 19 轮 best，模型选择与哈希在测试前固定。两项合成数据检查、历史 validation 复核、测试索引与矩阵计数、参数及 checkpoint 不变检查全部通过。对官方 test 完整做一遍 forward，6,462/10,000 正确、accuracy=64.62%、loss=1.023884，没有新增训练更新。设计见 [07-final-plan.md](notes/07-final-plan.md)，结果见 [阶段 7 结果](results/07-final/README.md)。

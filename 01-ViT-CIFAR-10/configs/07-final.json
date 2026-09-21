@@ -1,0 +1,20 @@
+{
+  "stage": "07-final",
+  "seed": 42,
+  "cpu_threads": 4,
+  "batch_size": 128,
+  "num_workers": 0,
+  "pin_memory": true,
+  "precision": "float32_ieee",
+  "deterministic_algorithms": true,
+  "forward_config": "02-forward.json",
+  "training_run_id": "06-budget-4b59a2a02b22",
+  "selection_metric": "minimum_validation_loss",
+  "selection_epochs": [1, 50],
+  "selected_epoch": 19,
+  "checkpoint_sha256": "5bd026d59e04c5f7e31be66949b00b0db1985f4fd92ab92c6bf3f2c9696c5198",
+  "test_samples": 10000,
+  "examples_per_outcome": 10,
+  "example_selection": "first_in_official_test_order",
+  "download": false
+}

@@ -1,0 +1,11 @@
+{
+  "entry": "tests/test_budget.py",
+  "source_sha256": "0caedf4dc2354470f4d6281ab27e80071b93e8275d8c5a6af8a3599c49b6f719",
+  "command": "python tests/test_budget.py",
+  "tests_run": 3,
+  "failures": 0,
+  "errors": 0,
+  "exit_code": 0,
+  "observed_duration_seconds": 0.503,
+  "scope": "Executed on the assigned CUDA device before the stage-6 preflight."
+}

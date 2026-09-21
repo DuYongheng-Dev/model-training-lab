@@ -1,0 +1,139 @@
+{
+  "stage": "05-train",
+  "run_id": "05-train-20c306601b0b",
+  "parent_run": null,
+  "config": {
+    "stage": "05-train",
+    "seed": 42,
+    "cpu_threads": 4,
+    "batch_size": 128,
+    "num_workers": 0,
+    "pin_memory": true,
+    "drop_last": false,
+    "max_epochs": 20,
+    "train_samples": 45000,
+    "validation_samples": 5000,
+    "forward_config": "02-forward.json",
+    "precision": "float32_ieee",
+    "deterministic_algorithms": true,
+    "augmentation": "none",
+    "optimizer": {
+      "lr": 0.0003,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "weight_decay": 0.01,
+      "foreach": false,
+      "fused": false
+    }
+  },
+  "model": {
+    "image_size": 32,
+    "patch_size": 4,
+    "embed_dim": 128,
+    "depth": 4,
+    "num_heads": 4,
+    "mlp_ratio": 4,
+    "num_classes": 10,
+    "dropout": 0.0
+  },
+  "parameters": 809354,
+  "versions": {
+    "torch": "2.14.0+cu130",
+    "torchvision": "0.29.0+cu130",
+    "numpy": "2.5.2",
+    "matplotlib": "3.11.2",
+    "nvidia-cudnn-cu13": "9.24.0.43"
+  },
+  "split_sha256": "ca4d8a3d621b62cfa413948e4661582f2b3f8d210f2c4dfcc9574b207dd41afa",
+  "training_data_sha256": {
+    "batches.meta": "f962466ef690d46b226450fb9aadc74ba4bc64a76aa526b5827fe4bc5c7125cb",
+    "data_batch_1": "54636561a3ce25bd3e19253c6b0d8538147b0ae398331ac4a2d86c6d987368cd",
+    "data_batch_2": "766b2cef9fbc745cf056b3152224f7cf77163b330ea9a15f9392beb8b89bc5a8",
+    "data_batch_3": "0f00d98ebfb30b3ec0ad19f9756dc2630b89003e10525f5e148445e82aa6a1f9",
+    "data_batch_4": "3f7bb240661948b8f4d53e36ec720d8306f5668bd0071dcb4e6c947f78e9682b",
+    "data_batch_5": "d91802434d8376bbaeeadf58a737e3a1b12ac839077e931237e0dcd43adcb154"
+  },
+  "source_hashes": {
+    "model.py": "e5d8aa70dbbd84032b5c39fb222652ae5118bac66df1f0b29f28a7ab3aaca814",
+    "data.py": "780b00d0688f8cfa9bb773dd2983831d8da5f9e86c1b2293a1fedb037e5e39d1",
+    "train_full.py": "6550a5062fdcf25f9200270200bb62be23fc2a7010024a779d7447f1ef7702a2",
+    "evaluate.py": "1be7e2f0842f8a2a444b88f9d5643119df2ed2a3cd2f105dde84aac4a328b24f",
+    "checkpoint.py": "88aafbafea87d2b8f0fb505418b8a6f686b45dcef4ce596169f6055c1d36dbf0"
+  },
+  "source_manifest_sha256": "bad8364a16bedf65071a08793b838386f4aa62f65c857e41d26109b7a2e65c5f",
+  "first_epoch_this_run": 1,
+  "completed_epoch": 1,
+  "global_step": 352,
+  "best_epoch": 1,
+  "best_validation": {
+    "loss": 1.6461446338653565,
+    "accuracy": 0.3858,
+    "correct": 1929,
+    "count": 5000
+  },
+  "last": {
+    "epoch": 1,
+    "global_step": 352,
+    "train_loss": 1.829941571299235,
+    "train_accuracy": 0.3193111111111111,
+    "train_correct": 14369,
+    "train_count": 45000,
+    "train_batches": 352,
+    "train_last_batch_size": 72,
+    "train_order_sha256": "60f10e313c67cc20794245ee94ebbf199b308091dbbb49a63ac7f1241f19860b",
+    "train_seconds": 14.757319909986109,
+    "data_wait_seconds": 6.350137612782419,
+    "train_samples_per_second": 3049.3341795449605,
+    "val_loss": 1.6461446338653565,
+    "val_accuracy": 0.3858,
+    "val_correct": 1929,
+    "val_count": 5000,
+    "validation_seconds": 0.7282937113195658,
+    "gpu_peak_allocated_mib": 381.35205078125
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "global_step": 352,
+      "train_loss": 1.829941571299235,
+      "train_accuracy": 0.3193111111111111,
+      "train_correct": 14369,
+      "train_count": 45000,
+      "train_batches": 352,
+      "train_last_batch_size": 72,
+      "train_order_sha256": "60f10e313c67cc20794245ee94ebbf199b308091dbbb49a63ac7f1241f19860b",
+      "train_seconds": 14.757319909986109,
+      "data_wait_seconds": 6.350137612782419,
+      "train_samples_per_second": 3049.3341795449605,
+      "val_loss": 1.6461446338653565,
+      "val_accuracy": 0.3858,
+      "val_correct": 1929,
+      "val_count": 5000,
+      "validation_seconds": 0.7282937113195658,
+      "gpu_peak_allocated_mib": 381.35205078125
+    }
+  ],
+  "test_evaluated": false,
+  "elapsed_this_run_seconds": 18.265640689060092,
+  "checkpoint_sha256": {
+    "best.pt": "acdbf17c3556f6f6c8b6b067138e574eb6db0acb243dc5d5930a659707f6b7c4",
+    "last.pt": "3377a058a44075891fc16a3b72edd79e62bc88bcbda55a27134e68208584c511"
+  },
+  "checks": {
+    "fixed_disjoint_split_and_original_data": true,
+    "all_train_samples_seen_once_per_epoch": true,
+    "finite_training_loss_gradients_parameters": true,
+    "optimizer_counters_match": true,
+    "validation_preserves_weights_and_creates_no_gradients": true,
+    "last_checkpoint_weights_match": true,
+    "best_checkpoint_reproduces_validation": true,
+    "checkpoints_load_with_weights_only": true
+  },
+  "metric_note": "Train metrics use changing pre-update parameters; validation uses the epoch-end model.",
+  "timing_note": "Train time includes loading, transfer, finite checks and metric synchronization; not a pure GPU benchmark.",
+  "memory_note": "PyTorch peak allocated memory; excludes driver overhead.",
+  "resume_scope": "Epoch boundary, same code/config/data/software/GPU; cross-device equivalence is not claimed."
+}

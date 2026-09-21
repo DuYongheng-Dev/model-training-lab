@@ -1,0 +1,27 @@
+{
+  "stage": "06-budget",
+  "seed": 42,
+  "cpu_threads": 4,
+  "batch_size": 128,
+  "num_workers": 0,
+  "pin_memory": true,
+  "drop_last": false,
+  "max_epochs": 50,
+  "train_samples": 45000,
+  "validation_samples": 5000,
+  "forward_config": "02-forward.json",
+  "precision": "float32_ieee",
+  "deterministic_algorithms": true,
+  "augmentation": "none",
+  "optimizer": {
+    "lr": 0.0003,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.01,
+    "foreach": false,
+    "fused": false
+  }
+}

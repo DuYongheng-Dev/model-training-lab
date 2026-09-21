@@ -24,3 +24,28 @@ def evaluate_batch(model, images, labels):
         }, logits.detach()
     finally:
         model.train(was_training)
+
+
+@torch.inference_mode()
+def evaluate_loader(model, loader, device):
+    """Weight metrics by sample count, including the short final batch."""
+    was_training = model.training
+    model.eval()
+    loss_sum, correct, count = 0.0, 0, 0
+    try:
+        for images, labels, _indices in loader:
+            images = images.to(device, non_blocking=True)
+            labels = labels.to(device, non_blocking=True)
+            logits = model(images)
+            losses = nn.functional.cross_entropy(logits, labels, reduction='sum')
+            if not torch.isfinite(losses):
+                raise FloatingPointError('Non-finite evaluation loss')
+            loss_sum += float(losses)
+            correct += int((logits.argmax(dim=1) == labels).sum())
+            count += len(labels)
+        if count == 0:
+            raise ValueError('Cannot evaluate an empty dataset')
+        return {'loss': loss_sum / count, 'accuracy': correct / count,
+                'correct': correct, 'count': count}
+    finally:
+        model.train(was_training)

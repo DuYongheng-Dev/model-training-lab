@@ -1,0 +1,17 @@
+{
+  "run_id": "07-final-643922676edf",
+  "exporter_sha256": "afea80575962004dc3492fde15a1ab05119f21a0ea9e619984e99043a74ee30a",
+  "files_sha256": {
+    "summary.json": "fcf8b1de0681df030962028cbb23be3c9e843d073becb6153be8fd9068b6c9af",
+    "model-selection.json": "2fc3f76896c2a8164ab9bcd5d10f428290b538639aa4cd5ab24f74860a4eb140",
+    "preflight.json": "69030f442a9a695c954bee48d0936ea93efb04624c2d60803d18957d8a34cdc3",
+    "unit-checks.json": "ba90054beb28950eb9c3a1257d541e96a1f10fd72612d0f3bcc2a3489632c4f7",
+    "per-class.csv": "614411a62314bc930108b153eea728a14f7285a60a95dc05dc0bf193fb8790d5",
+    "confusion-matrix.csv": "b517ede3971ede2d1068314aca9a52f6ac58268868735d6084b8b2166ecee753",
+    "examples.json": "c712b2db026b932e9597aef0c612c11a7d482347cc580165abf7a1d22b532f0e",
+    "confusion-matrix.png": "ec65a0dbad217e3b34bd9bd09f2647b839799f1e6c837a9ce969f7b9a13c61af",
+    "examples-correct.png": "25ae8a8b497c1a11ae15da167dfa849eb185ac0dfd37f97c4b94f9ab1382554a",
+    "examples-incorrect.png": "d11c239fe1d2dae1ffed9a3e356bb1edda77d12a2cdb41aab2078c0d71fa2a4b"
+  },
+  "full_predictions_exported": false
+}

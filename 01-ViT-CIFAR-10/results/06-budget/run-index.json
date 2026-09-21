@@ -1,0 +1,10 @@
+{
+  "stage5_parent": "05-train-f267ced4de42",
+  "preflight_epoch21": "06-budget-56f9438e67a2",
+  "continued_epochs22_to50": "06-budget-4b59a2a02b22",
+  "targeted_checks_passed": 3,
+  "checks_entry": "tests/test_budget.py",
+  "exporter_sha256": "70c6aacbe9d26eda628970420a060c5f7432a8b7c7b06b960fa8478587472bfc",
+  "main_trajectory": "Stage 5 epochs 1-20, stage 6 preflight epoch 21, continuation epochs 22-50.",
+  "device_changed_at_epoch20": true
+}

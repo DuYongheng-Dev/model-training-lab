@@ -1,0 +1,64 @@
+{
+  "kind": "stage5_budget_extension",
+  "checks": {
+    "model": {
+      "exactly_equal": true,
+      "max_abs_tensor_error": 0.0,
+      "tensor_count": 56,
+      "mismatch_count": 0,
+      "first_mismatches": []
+    },
+    "optimizer": {
+      "exactly_equal": true,
+      "max_abs_tensor_error": 0.0,
+      "tensor_count": 168,
+      "mismatch_count": 0,
+      "first_mismatches": []
+    },
+    "rng": {
+      "exactly_equal": true,
+      "max_abs_tensor_error": 0.0,
+      "tensor_count": 4,
+      "mismatch_count": 0,
+      "first_mismatches": []
+    }
+  },
+  "completed_epoch": 20,
+  "global_step": 7040,
+  "baseline20": {
+    "epoch": 20,
+    "train_eval": {
+      "loss": 0.6483378278096517,
+      "accuracy": 0.7724444444444445,
+      "correct": 34760,
+      "count": 45000,
+      "seconds": 6.463242177851498
+    },
+    "validation": {
+      "loss": 1.0203742973327636,
+      "accuracy": 0.6536,
+      "correct": 3268,
+      "count": 5000,
+      "seconds": 1.0244342042133212
+    },
+    "restored_validation_check": {
+      "loss_absolute_difference": 0.0,
+      "correct_count_equal": true,
+      "loss_absolute_tolerance": 1e-05
+    },
+    "historical_best_validation_check": {
+      "loss_absolute_difference": 0.0,
+      "correct_count_equal": true,
+      "loss_absolute_tolerance": 1e-05
+    },
+    "historical_best_epoch": 19,
+    "historical_best_validation": {
+      "loss": 1.0134517986297606,
+      "accuracy": 0.6558,
+      "correct": 3279,
+      "count": 5000,
+      "seconds": 0.7212714902125299
+    }
+  },
+  "scope": "State loading checked exactly; no cross-GPU training trajectory equivalence claim."
+}

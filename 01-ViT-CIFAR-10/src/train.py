@@ -1,4 +1,4 @@
-"""阶段 4：固定 32 张训练图，显式训练循环；阶段 5 的完整训练尚未实现。"""
+"""阶段 4：固定 32 张训练图，显式训练循环；完整训练见 train_full.py。"""
 import argparse
 import csv
 import json
